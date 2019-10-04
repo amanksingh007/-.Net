@@ -1,0 +1,131 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace GraphLinkedList
+{   
+    public class Node
+    {
+        public int data;public Node next;
+        public Node(int d) { data = d;next = null; }
+    }
+
+    public class MyLinkedList
+    {
+        Node head;
+        public MyLinkedList()
+        {
+            head = null; 
+        }
+
+        public void insert(int data)
+        {
+            Node nd = new Node(data);
+            if (head == null)
+            {
+                head = nd;
+                return;
+            }
+
+            Node temp = head;
+            while (temp.next != null)
+            {
+                temp = temp.next;
+            }
+            temp.next = nd;
+            return;
+        }
+
+        public void print()
+        {
+            Node temp = head;
+            while (temp != null)
+            {
+                Console.Write(temp.data+" ");
+                temp = temp.next;
+            }
+        }
+
+    }
+
+    class NextNode
+    {
+        int next;int weight;
+        NextNode(int n,int w)
+        {
+            next = n;weight = w;
+        }
+    }
+
+    public class Graph
+    {
+        int N;
+        List<Int32> []adj;
+        public Graph(int n)
+        {
+            this.N = n;
+            adj = new List<Int32>[n+1];
+            for (int i = 0; i <= n; i++)
+                adj[i] = new List<Int32>();
+        }
+
+        public void push_edge(int u,int v,int w)
+        {
+            adj[u].Add(v); adj[v].Add(u);
+        }
+
+        public void DFSUtil(int v,Boolean[] visited)
+        {
+            visited[v] = true;
+            Console.Write(v + " ");
+            foreach(var n in adj[v])
+                if (!visited[(int)n])
+                    DFSUtil(n, visited);
+        }
+        public void DFS(int src)
+        {
+            Boolean []visited= new bool[N+1];
+            for (int i = 0; i < N; i++) visited[i] = false;
+            DFSUtil(src, visited);
+            return;
+
+        }
+
+        public void BFS(int src)
+        {
+            Boolean[] visited = new bool[N + 1]; 
+        }
+        public void print()
+        {
+            for (int i = 0; i <= N; i++)
+            {
+                foreach (var x in adj[i])
+                    Console.Write(x);
+                //Console.WriteLine("*******END***********");
+            }
+        }
+        
+    }
+
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Console.Write("Enter Your Number:");
+            MyLinkedList ll = new MyLinkedList();
+            //ll.print();
+            Graph graph = new Graph(4);
+            graph.push_edge(1, 2,10);
+            graph.push_edge(3, 4,76);
+            graph.push_edge(4, 2,90);
+            graph.DFS(1);
+            graph.print();
+            Console.ReadKey();
+
+        }
+    }
+}
+    
